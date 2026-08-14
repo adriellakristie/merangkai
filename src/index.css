@@ -1,0 +1,206 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* filepath: /Users/adriellakristie/Desktop/MERANGKAI REACT/src/index.css */
+:root {
+  --text: #6b6375;
+  --text-h: #08060d;
+  --bg: #fff;
+  --border: #e5e4e7;
+  --code-bg: #f4f3ec;
+
+  /* Merangkai palette */
+  --maroon: #7f1f1f;
+  --maroon-dark: #611818;
+  --gold: #c98a3d;
+  --gold-light: #d9a24a;
+  --cream: #fdfaf5;
+  --text-on-maroon: #e3c6a8;
+  --text-muted: #6b7280;
+  --text-dark: #111827;
+
+  --accent: #c98a3d;
+  --accent-bg: rgba(201, 138, 61, 0.1);
+  --accent-border: rgba(201, 138, 61, 0.5);
+  --social-bg: rgba(244, 243, 236, 0.5);
+  --shadow:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+html {
+  background-color: var(--maroon);
+}
+
+body {
+  margin: 0;
+  background-color: var(--maroon);
+  min-height: 100vh;
+}
+
+#root {
+  max-width: 1080px;
+  margin: 0 auto;
+  text-align: center;
+  background: var(--bg);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+p {
+  margin: 0;
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: var(--code-bg);
+}
+
+/* Additional CSS classes needed for your app */
+.noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url('data:image/svg+xml,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.4"/></svg>');
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+}
+
+.mono {
+  font-family: 'Courier New', monospace;
+}
+
+.script {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+}
+
+.playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+.text-xs-upper {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.text-small {
+  font-size: 0.875rem;
+}
+
+.text-muted-foreground {
+  color: var(--text-muted);
+}
+
+.text-foreground {
+  color: var(--text-dark);
+}
+
+.bg-foreground {
+  background-color: var(--text-dark);
+}
+
+.bg-border {
+  background-color: var(--border);
+}
+
+.border-foreground {
+  border-color: var(--text-dark);
+}
+
+.border-border {
+  border-color: var(--border);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s ease forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
