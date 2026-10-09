@@ -4,6 +4,7 @@ import { works } from '../data/works';
 import HatchingGraphic from '../components/HatchingGraphic';
 import ParanoiaSketch from '../components/ParanoiaSketch';
 import BarongSketch from '../components/BarongSketch';
+import useIsMobile from '../hooks/useIsMobile';
 
 const TagPill = ({ children }) => (
   <span style={{
@@ -11,7 +12,6 @@ const TagPill = ({ children }) => (
     fontSize: '14px',
     color: '#4b5563',
     backgroundColor: '#e5e7eb',
-    marginRight: '36px',
     padding: '10px 24px',
     borderRadius: '999px',
     display: 'inline-block'
@@ -20,8 +20,8 @@ const TagPill = ({ children }) => (
   </span>
 );
 
-const TitleBlock = ({ work, align = 'right' }) => (
-  <div style={{ marginBottom: '32px', marginRight: '36px', textAlign: align }}>
+const TitleBlock = ({ work, align = 'right', isMobile }) => (
+  <div style={{ marginBottom: '32px', marginRight: isMobile ? 0 : '36px', textAlign: align }}>
     <div style={{
       display: 'flex',
       justifyContent: align === 'right' ? 'flex-end' : 'flex-start',
@@ -41,7 +41,7 @@ const TitleBlock = ({ work, align = 'right' }) => (
       </p>
       <h1 style={{
         fontFamily: '"Playfair Display", serif',
-        fontSize: window.innerWidth > 768 ? '56px' : '36px',
+        fontSize: isMobile ? '40px' : '56px',
         // marginRight: '36px',
         color: '#571e00',
         maxWidth: '200px',
@@ -60,7 +60,7 @@ const TitleBlock = ({ work, align = 'right' }) => (
       fontSize: '14px',
       color: '#d97706',
       lineHeight: '2',
-      marginTop: '50px'
+      marginTop: isMobile ? '28px' : '50px'
     }}>
       {work.fullDesc}
     </p>
@@ -70,6 +70,7 @@ const TitleBlock = ({ work, align = 'right' }) => (
 const WorkDetail = () => {
   const { id } = useParams();
   const work = works.find(w => w.id === id);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -136,11 +137,11 @@ const WorkDetail = () => {
       <main style={{
         maxWidth: '1200px',
         margin: '0 auto',
-        padding: isSpecialLayout ? '0 24px 80px' : '80px 24px'
+        padding: isSpecialLayout ? '0 24px 80px' : (isMobile ? '24px 24px 80px' : '80px 24px')
       }}>
         {isSpecialLayout ? (
           <div>
-            <TitleBlock work={work} align="right" />
+            <TitleBlock work={work} align="right" isMobile={isMobile} />
 
             <div style={{ marginBottom: '32px' }}>
               <SketchComponent />
@@ -156,18 +157,21 @@ const WorkDetail = () => {
           // Default layout for other projects (gallery + text)
           <div style={{
             display: 'grid',
-            gridTemplateColumns: window.innerWidth > 768 ? '1fr 1fr' : '1fr',
-            gap: '80px',
+            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+            gap: isMobile ? '48px' : '80px',
             alignItems: 'start'
           }}>
             {/* Left: Image gallery */}
             <div>
-              <div style={{ display: 'grid', gap: '0px' }}>
+              <div style={{ display: 'grid', gap: isMobile ? '24px' : '0px' }}>
                 {work.gallery.map((image, index) => (
                   <div key={index} style={{
                     width: '100%',
-                    aspectRatio: '3/3',
-                    overflow: 'hidden'
+                    aspectRatio: '1 / 1',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}>
                     <img
                       src={image}
@@ -180,8 +184,8 @@ const WorkDetail = () => {
             </div>
 
             {/* Right: Project details */}
-            <div style={{ position: 'sticky', top: '80px' }}>
-              <TitleBlock work={work} align="right" />
+            <div style={{ position: isMobile ? 'static' : 'sticky', top: '80px', order: isMobile ? -1 : 0 }}>
+              <TitleBlock work={work} align="right" isMobile={isMobile} />
 
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                 {work.tags?.map((tag) => (

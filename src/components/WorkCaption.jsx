@@ -32,7 +32,7 @@ const WorkCaption = ({ work, style }) => {
         fontSize: 'clamp(18px, 4.1vw, 36px)',
         textAlign: 'left',
         color: 'var(--maroon)',
-        lineHeight: '0.8',
+        lineHeight: '0.95',
         maxWidth: '100px',
         margin: 0
       }}>

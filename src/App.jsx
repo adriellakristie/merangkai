@@ -6,10 +6,12 @@ import WorkCaption from './components/WorkCaption';
 import IntroSplash from './components/IntroSplash';
 import { useState } from 'react';
 import { works } from './data/works';
+import useIsMobile from './hooks/useIsMobile';
 
 function App() {
   const [showIntro, setShowIntro] = useState(true);
   const [isEnglish, setIsEnglish] = useState(false);
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -24,16 +26,15 @@ function App() {
         justifyContent: 'center', 
         padding: '80px 24px', 
         position: 'relative',
-        overflowX: 'hidden',
-        overflowY: 'visible'
+        overflowX: 'clip'
       }}>
         {/* Hatching graphic — top right */}
         <div style={{
           position: 'absolute',
           top: -30,
           right: '-40px',
-          width: '45%',
-          height: '55%',
+          width: isMobile ? '60%' : '45%',
+          height: isMobile ? '38%' : '55%',
           opacity: 0.7,
           pointerEvents: 'none'
         }}>
@@ -45,8 +46,8 @@ function App() {
           position: 'absolute',
           bottom: 0,
           left: '-40px',
-          width: '40%',
-          height: '50%',
+          width: isMobile ? '55%' : '40%',
+          height: isMobile ? '35%' : '50%',
           opacity: 0.6,
           pointerEvents: 'none'
         }}>
@@ -62,11 +63,11 @@ function App() {
         }}>
           <p style={{
             fontFamily: '"Courier New", monospace',
-            fontSize: '12px',
+            fontSize: isMobile ? '11px' : '12px',
             textTransform: 'uppercase',
             color: '#6b7280',
             marginBottom: '32px',
-            letterSpacing: '0.2em'
+            letterSpacing: isMobile ? '0.12em' : '0.2em'
           }}>
             EST. 2026 · DIVE INTO CULTURE & HERITAGE
           </p>
@@ -126,11 +127,11 @@ function App() {
 
       {/* ===================== ABOUT ===================== */}
       <section style={{
-        height: '80vh',
-        padding: '96px 24px',
+        minHeight: '80vh',
+        padding: isMobile ? '72px 24px' : '96px 24px',
+        boxSizing: 'border-box',
         position: 'relative',
-        overflowX: 'hidden',
-        overflowY: 'visible',
+        overflowX: 'clip',
         backgroundColor: 'var(--maroon)'
       }}>
         <div style={{
@@ -159,7 +160,7 @@ function App() {
             style={{
               fontFamily: '"Playfair Display", serif',
               fontStyle: 'italic',
-              fontSize: '80px',
+              fontSize: 'clamp(56px, 12vw, 80px)',
               color: 'var(--gold)',
               lineHeight: '1.2',
               maxWidth: '300px',
@@ -188,14 +189,14 @@ function App() {
 
           <p style={{
             fontFamily: '"Courier New", monospace',
-            fontSize: '14px',
+            fontSize: isMobile ? '13px' : '14px',
             textAlign: 'right',
             color: 'var(--text-on-maroon)',
             maxWidth: '420px',
             margin: '0 auto',
-            marginTop: '40vh',
+            marginTop: isMobile ? '28vh' : '40vh',
             marginBottom: '24px',
-            marginRight: '20px',
+            marginRight: isMobile ? 0 : '20px',
           }}>
             Welcome to an archive of culture. <br />
             Witness Indonesia through generative code
@@ -236,16 +237,16 @@ function App() {
             onClick={() => setIsEnglish(!isEnglish)}
             style={{
               fontFamily: '"Playfair Display", serif',
-              fontSize: '72px',
+              fontSize: 'clamp(48px, 9vw, 72px)',
               color: 'var(--gold)',
               lineHeight: '1.2',
               margin: '0 0 24px',
               textAlign: 'right',
-              paddingTop: '80px',
+              paddingTop: isMobile ? '56px' : '80px',
               cursor: 'pointer',
               userSelect: 'none',
               transition: 'all 0.3s ease',
-              marginRight: '10vh',
+              marginRight: isMobile ? 0 : '10vh',
             }}
             onMouseEnter={(e) => { e.target.style.color = 'var(--gold-light)'; }}
             onMouseLeave={(e) => { e.target.style.color = 'var(--gold)'; }}
@@ -254,7 +255,7 @@ function App() {
           </p>
         </div>
 
-        {window.innerWidth > 768 ? (
+        {!isMobile ? (
           /* Desktop: staggered mosaic, positions taken from the design file */
           <div style={{
             position: 'relative',
@@ -262,7 +263,8 @@ function App() {
             maxWidth: '1121px',
             margin: '0 auto',
             aspectRatio: '1121 / 1424',
-            padding: '0 24px'
+            padding: '0 24px',
+            boxSizing: 'border-box'
           }}>
             <WorkImageTile work={works[0]} style={{ left: '11.5%', top: '0%', width: '37.65%', height: '33.2%' }} />
             <WorkCaption work={works[0]} style={{ left: '54.5%', top: '7.9%', width: '27.2%', height: '12.5%' }} />
@@ -274,25 +276,43 @@ function App() {
             <WorkCaption work={works[2]} style={{ left: '54.5%', top: '74.7%', width: '27.2%', height: '12.5%' }} />
           </div>
         ) : (
-          /* Mobile: simple stacked fallback */
+          /* Mobile: staggered stack echoing the desktop mosaic — caption card overlaps the frame */
           <div style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '20px',
+            gap: '48px',
             padding: '0 24px',
             maxWidth: '480px',
             margin: '0 auto'
           }}>
-            {[works[0], works[1], works[2]].map((work) => (
-              <div key={work.id} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <div style={{ position: 'relative', width: '100%', paddingBottom: '112%' }}>
-                  <WorkImageTile work={work} style={{ left: 0, top: 0, width: '100%', height: '100%' }} />
+            {[works[0], works[1], works[2]].map((work, i) => {
+              const flip = i % 2 === 1;
+              return (
+                <div key={work.id} style={{ position: 'relative', paddingBottom: '18%' }}>
+                  <div style={{
+                    position: 'relative',
+                    width: '88%',
+                    paddingBottom: '98%', // same 0.89 ratio as the desktop tiles
+                    marginLeft: flip ? 'auto' : 0
+                  }}>
+                    <WorkImageTile work={work} style={{ left: 0, top: 0, width: '100%', height: '100%' }} />
+                  </div>
+                  <WorkCaption
+                    work={work}
+                    style={{
+                      top: 'auto',
+                      bottom: 0,
+                      left: flip ? 0 : 'auto',
+                      right: flip ? 'auto' : 0,
+                      width: '52%',
+                      height: '26%',
+                      minHeight: '84px',
+                      boxSizing: 'border-box'
+                    }}
+                  />
                 </div>
-                <div style={{ position: 'relative', width: '55%', paddingBottom: '24%' }}>
-                  <WorkCaption work={work} style={{ left: 0, top: 0, width: '100%', height: '100%' }} />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>

@@ -1,38 +1,11 @@
-import React from 'react';
+import ScaledEmbed from './ScaledEmbed';
 
-const BarongSketch = () => {
-  return (
-    <div style={{
-      width: '100%',
-      maxWidth: '1000px',
-      margin: '0 auto'
-    }}>
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        paddingBottom: '75%', // 750/1000 = 75% aspect ratio
-        overflow: 'hidden',
-        borderRadius: '8px',
-        backgroundColor: '#000'
-      }}>
-        {/* served from the Wayan Barong submodule (public/Wayan Barong) */}
-        <iframe
-          src="/Wayan%20Barong/index.html"
-          scrolling="no"
-          allow="autoplay"
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            border: 'none'
-          }}
-          title="Wayan the Barong: Interactive Balinese Guardian"
-        />
-      </div>
-    </div>
-  );
-};
+// served from the Wayan Barong submodule (public/Wayan Barong)
+const BarongSketch = () => (
+  <ScaledEmbed
+    src="/Wayan%20Barong/index.html"
+    title="Wayan the Barong: Interactive Balinese Guardian"
+  />
+);
 
 export default BarongSketch;
