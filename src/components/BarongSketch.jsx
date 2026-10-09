@@ -15,8 +15,11 @@ const BarongSketch = () => {
         borderRadius: '8px',
         backgroundColor: '#000'
       }}>
-        <iframe 
-          src="https://openprocessing.org/sketch/2937014/embed/?plusEmbedHash=01cb4e3e&userID=582347&plusEmbedTitle=true&show=sketch"
+        {/* served from the Wayan Barong submodule (public/Wayan Barong) */}
+        <iframe
+          src="/Wayan%20Barong/index.html"
+          scrolling="no"
+          allow="autoplay"
           style={{
             position: 'absolute',
             top: 0,
